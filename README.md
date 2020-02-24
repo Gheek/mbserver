@@ -21,7 +21,7 @@ Bit access:
 
 TCP and serial RTU access is supported.
 
-The server internally allocates memory for 65536 coils, 65536 discrete inputs, 653356 holding registers and 65536 input registers.
+The server internally allocates memory for X coils, discrete inputs, holding registers and input registers. The number must be specified in the server constructor.
 On start, all values are initialzied to zero.  Modbus requests are processed in the order they are received and will not overlap/interfere with each other.
 
 The golang [mbserver documentation](https://godoc.org/github.com/tbrandon/mbserver).
@@ -41,7 +41,7 @@ import (
 )
 
 func main() {
-	serv := mbserver.NewServer()
+	serv := mbserver.NewServer(16)
 	err := serv.ListenTCP("127.0.0.1:1502")
 	if err != nil {
 		log.Printf("%v\n", err)
@@ -98,7 +98,7 @@ In the following example, the Modbus server will be configured to listen on
 127.0.0.1:1502, 0.0.0.0:3502, /dev/ttyUSB0 and /dev/ttyACM0
 
 ```
-	serv := mbserver.NewServer()
+	serv := mbserver.NewServer(16)
 	err := serv.ListenTCP("127.0.0.1:1502")
 	if err != nil {
 		log.Printf("%v\n", err)
@@ -154,7 +154,7 @@ func (s *Server) RegisterFunctionHandler(funcCode uint8, function func(*Server, 
 Example of overriding the default ReadDiscreteInputs funtion:
 
 ```
-serv := NewServer()
+serv := NewServer(16)
 
 // Override ReadDiscreteInputs function.
 serv.RegisterFunctionHandler(2,

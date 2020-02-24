@@ -45,7 +45,7 @@ func TestUnsupportedFunction(t *testing.T) {
 
 func TestModbus(t *testing.T) {
 	// Server
-	s := NewServer()
+	s := NewServer(16)
 	err := s.ListenTCP("127.0.0.1:3333")
 	if err != nil {
 		t.Fatalf("failed to listen, got %v\n", err)
